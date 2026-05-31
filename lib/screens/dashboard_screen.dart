@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../app_style.dart';
 import '../services/storage_service.dart';
 import 'add_money_screen.dart';
 import 'withdraw_screen.dart';
@@ -36,36 +37,46 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   Widget menuCard(IconData icon, String title, Widget screen) {
-    return InkWell(
-      onTap: () => openScreen(screen),
-      borderRadius: BorderRadius.circular(22),
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(22),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.blue.withOpacity(0.12),
-              blurRadius: 14,
-              offset: const Offset(0, 6),
+  return InkWell(
+    onTap: () => openScreen(screen),
+    borderRadius: BorderRadius.circular(22),
+    child: Container(
+      decoration: softCard(),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            width: 58,
+            height: 58,
+            decoration: const BoxDecoration(
+              shape: BoxShape.circle,
+              gradient: LinearGradient(
+                colors: [
+                  Color(0xFF4AA8FF),
+                  Color(0xFF0F73F6),
+                ],
+              ),
             ),
-          ],
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CircleAvatar(
-              radius: 30,
-              backgroundColor: const Color(0xFFEAF7FF),
-              child: Icon(icon, size: 32, color: Colors.blue),
+            child: Icon(
+              icon,
+              size: 34,
+              color: Colors.white,
             ),
-            const SizedBox(height: 12),
-            Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
-          ],
-        ),
+          ),
+          const SizedBox(height: 12),
+          Text(
+            title,
+            style: const TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.w600,
+              color: AppColors.textDark,
+            ),
+          ),
+        ],
       ),
-    );
-  }
+    ),
+  );
+}
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +84,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     if (progress > 1) progress = 1;
 
     return Scaffold(
-      backgroundColor: const Color(0xFFEAF7FF),
+      backgroundColor: AppColors.bg,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(22),
@@ -84,26 +95,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
-                  color: Color(0xFF0066D6),
+                  color: AppColors.primaryDark,
                 ),
               ),
               const SizedBox(height: 22),
               Container(
-                width: double.infinity,
                 padding: const EdgeInsets.all(22),
-                decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                    colors: [Color(0xFF1D8CFF), Color(0xFF0066D6)],
-                  ),
-                  borderRadius: BorderRadius.circular(28),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.blue.withOpacity(0.25),
-                      blurRadius: 18,
-                      offset: const Offset(0, 8),
-                    ),
-                  ],
-                ),
+                decoration: blueGradientCard(),
                 child: Row(
                   children: [
                     Expanded(
@@ -124,13 +122,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             ),
                           ),
                           const SizedBox(height: 8),
-                          Text(
-                            goal == 0
-                                ? 'No savings goal set'
-                                : 'Goal: ₹${goal.toStringAsFixed(0)}',
-                            style: const TextStyle(color: Colors.white),
+                          const Text(
+                            'Keep saving! 😊',
+                            style: TextStyle(color: Colors.white),
                           ),
-                          const SizedBox(height: 8),
+                          const SizedBox(height: 10),
                           LinearProgressIndicator(
                             value: progress,
                             color: Colors.white,
@@ -139,7 +135,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         ],
                       ),
                     ),
-                    Image.asset('assets/images/piggy.png', height: 110),
+                    Image.asset('assets/images/piggy.png', height: 140),
                   ],
                 ),
               ),
@@ -150,11 +146,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   crossAxisSpacing: 16,
                   mainAxisSpacing: 16,
                   children: [
+
                     menuCard(Icons.add, 'Add Money', const AddMoneyScreen()),
-                    menuCard(Icons.remove, 'Withdraw', const WithdrawScreen()),
-                    menuCard(Icons.history, 'History', const HistoryScreen()),
+                    menuCard(Icons.remove, 'Withdraw Money', const WithdrawScreen()),
+                    menuCard(Icons.receipt_long, 'History', const HistoryScreen()),
                     menuCard(Icons.settings, 'Settings', const SettingsScreen()),
-                  ],
+],
                 ),
               ),
             ],

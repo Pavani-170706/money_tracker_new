@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../app_style.dart';
 import '../services/storage_service.dart';
 
 class HistoryScreen extends StatefulWidget {
@@ -25,48 +26,80 @@ class _HistoryScreenState extends State<HistoryScreen> {
   Future<void> clearHistory() async {
     await StorageService.clearHistory();
     await loadHistory();
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('History cleared')),
-    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFEAF7FF),
+      backgroundColor: AppColors.bg,
       appBar: AppBar(
-        title: const Text('Transaction History'),
-        backgroundColor: const Color(0xFFEAF7FF),
+        title: const Text('History'),
+        centerTitle: true,
+        backgroundColor: AppColors.bg,
+        foregroundColor: AppColors.primaryDark,
+        elevation: 0,
         actions: [
           IconButton(
             onPressed: clearHistory,
-            icon: const Icon(Icons.delete),
+            icon: const Icon(Icons.delete_outline),
           ),
         ],
       ),
       body: history.isEmpty
           ? const Center(child: Text('No transactions yet'))
           : ListView.builder(
-              padding: const EdgeInsets.all(15),
+              padding: const EdgeInsets.all(18),
               itemCount: history.length,
               itemBuilder: (context, index) {
                 final item = history[index];
                 final isAdded = item['type'] == 'Added';
 
-                return Card(
-                  child: ListTile(
-                    leading: Icon(
-                      isAdded ? Icons.add_circle : Icons.remove_circle,
-                      color: isAdded ? Colors.green : Colors.red,
-                    ),
-                    title: Text('${item['type']} ₹${item['amount']}'),
-                    subtitle: Text(
-                      '${item['note']}\nBalance: ₹${item['balance']}',
-                    ),
-                    trailing: Text(
-                      item['date'].toString().substring(0, 10),
-                    ),
+                return Container(
+                  margin: const EdgeInsets.only(bottom: 14),
+                  padding: const EdgeInsets.all(14),
+                  decoration: softCard(),
+                  child: Row(
+                    children: [
+                      CircleAvatar(
+                        backgroundColor: isAdded ? Colors.green : Colors.red,
+                        child: Icon(
+                          isAdded ? Icons.add : Icons.remove,
+                          color: Colors.white,
+                        ),
+                      ),
+                      const SizedBox(width: 14),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              isAdded ? 'Added' : 'Withdrawn',
+                              style: const TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              item['date'].toString().substring(0, 16),
+                              style: const TextStyle(
+                                fontSize: 12,
+                                color: AppColors.textLight,
+                              ),
+                            ),
+                            if (item['note'].toString().isNotEmpty)
+                              Text(
+                                item['note'],
+                                style: const TextStyle(fontSize: 12),
+                              ),
+                          ],
+                        ),
+                      ),
+                      Text(
+                        '${isAdded ? '+' : '-'} ₹${item['amount'].toStringAsFixed(0)}',
+                        style: TextStyle(
+                          color: isAdded ? AppColors.green : AppColors.red,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ],
                   ),
                 );
               },

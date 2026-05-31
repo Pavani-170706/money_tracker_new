@@ -15,8 +15,8 @@ class MoneyTrackerApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         scaffoldBackgroundColor: const Color(0xFFEAF7FF),
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
         useMaterial3: true,
+        fontFamily: 'Roboto',
       ),
       home: const PinScreen(),
     );

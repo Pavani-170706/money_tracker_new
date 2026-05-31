@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../app_style.dart';
 import '../services/storage_service.dart';
 import 'dashboard_screen.dart';
 
@@ -21,17 +22,14 @@ class _PinScreenState extends State<PinScreen> {
         MaterialPageRoute(builder: (_) => const DashboardScreen()),
       );
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Wrong PIN')),
-      );
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text('Wrong PIN')));
       setState(() => pin = '');
     }
   }
 
   void addNumber(String number) {
-    if (pin.length < 4) {
-      setState(() => pin += number);
-    }
+    if (pin.length < 4) setState(() => pin += number);
     if (pin.length == 4) checkPin();
   }
 
@@ -44,27 +42,18 @@ class _PinScreenState extends State<PinScreen> {
   Widget numberButton(String number) {
     return InkWell(
       onTap: () => addNumber(number),
+      borderRadius: BorderRadius.circular(22),
       child: Container(
         width: 78,
         height: 58,
         margin: const EdgeInsets.all(7),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(18),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.blue.withOpacity(0.15),
-              blurRadius: 12,
-              offset: const Offset(0, 5),
-            ),
-          ],
-        ),
+        decoration: softCard(),
         child: Center(
           child: Text(
             number,
             style: const TextStyle(
-              fontSize: 24,
-              color: Color(0xFF0066D6),
+              fontSize: 28,
+              color: AppColors.primaryDark,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -73,48 +62,83 @@ class _PinScreenState extends State<PinScreen> {
     );
   }
 
+  Widget emptyButton() {
+    return Container(
+      width: 78,
+      height: 58,
+      margin: const EdgeInsets.all(7),
+    );
+  }
+
+  Widget backButton() {
+    return InkWell(
+      onTap: deleteNumber,
+      borderRadius: BorderRadius.circular(22),
+      child: Container(
+        width: 78,
+        height: 58,
+        margin: const EdgeInsets.all(7),
+        child: const Center(
+          child: Icon(Icons.backspace_outlined, color: AppColors.textDark),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFEAF7FF),
+      backgroundColor: AppColors.bg,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(24),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset('assets/images/wallet.png', height: 180),
-              const SizedBox(height: 18),
+              Image.asset('assets/images/wallet.png', height: 150),
+              const SizedBox(height: 20),
               const Text(
                 'Money Tracker',
                 style: TextStyle(
-                  fontSize: 34,
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xFF0066D6),
+                  fontSize: 38,
+                  fontWeight: FontWeight.w800,
+                  color: AppColors.primaryDark,
                 ),
               ),
+              const SizedBox(height: 8),
               const Text(
                 'Your Secret Savings',
-                style: TextStyle(color: Colors.black54),
+                style: TextStyle(fontSize: 17, color: AppColors.textLight),
               ),
-              const SizedBox(height: 32),
+              const SizedBox(height: 40),
               const Text(
                 'Enter 4-digit PIN',
                 style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  color: Color(0xFF004FA8),
-                ),
-              ),
-              const SizedBox(height: 12),
-              Text(
-                '● ' * pin.length + '○ ' * (4 - pin.length),
-                style: const TextStyle(
-                  fontSize: 28,
-                  letterSpacing: 8,
-                  color: Color(0xFF0066D6),
+                  fontSize: 17,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.primaryDark,
                 ),
               ),
               const SizedBox(height: 22),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: List.generate(
+                  4,
+                  (index) => Container(
+                    width: 34,
+                    height: 34,
+                    margin: const EdgeInsets.symmetric(horizontal: 12),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(color: AppColors.primaryDark, width: 2),
+                      color: index < pin.length
+                          ? AppColors.primaryDark
+                          : Colors.transparent,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 40),
               for (var row in [
                 ['1', '2', '3'],
                 ['4', '5', '6'],
@@ -127,12 +151,9 @@ class _PinScreenState extends State<PinScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const SizedBox(width: 92),
+                  emptyButton(),
                   numberButton('0'),
-                  IconButton(
-                    onPressed: deleteNumber,
-                    icon: const Icon(Icons.backspace_outlined),
-                  ),
+                  backButton(),
                 ],
               ),
             ],
