@@ -1,16 +1,43 @@
-# money_tracker_new
+# 💰 Money Tracker App
 
-A new Flutter project.
+A simple and user-friendly personal finance tracking application built using Flutter.  
+This app helps users manage daily income and expenses, track balance, and maintain financial records easily.
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
+## 📱 Features
 
-A few resources to get you started if this is your first Flutter project:
+- 🔐 Secure 4-digit PIN authentication
+- 💰 Add income amount
+- 💸 Withdraw/expense tracking
+- 📊 View current balance
+- 📜 Transaction history
+- 👁️ Hide/Show balance option
+- ⚙️ Settings page
+- 💾 Offline data storage
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## 🛠️ Technologies Used
+
+- Flutter
+- Dart
+- Shared Preferences
+- Material UI
+
+## 📂 Project Structure
+
+```
+money_tracker_new
+
+├── lib
+│   └── main.dart
+│
+├── assets
+│   └── images
+│
+├── android
+├── ios
+├── web
+│
+├── pubspec.yaml
+└── README.md
+```
