@@ -1,3 +1,11 @@
+<p align="center">
+
+<img src="https://img.shields.io/badge/Flutter-Framework-blue">
+<img src="https://img.shields.io/badge/Dart-Language-blue">
+<img src="https://img.shields.io/badge/Status-Completed-success">
+
+</p>
+
 # 💰 Money Tracker App
 
 A simple and user-friendly personal finance tracking application built using Flutter.  
@@ -41,3 +49,11 @@ money_tracker_new
 ├── pubspec.yaml
 └── README.md
 ```
+## 👩‍💻 Author
+
+**Aatla Pavani**
+
+- AI & Machine Learning Student
+- Interested in Mobile App Development, AI and UI/UX Design
+
+⭐ If you like this project, give it a star!
